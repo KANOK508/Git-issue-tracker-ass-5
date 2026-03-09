@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Issues Tracker</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <!-- above add, daisy, tailwind, font-awesome... css file -->
+  </head>
+  <body class="bg-[#F8F9FB] min-h-screen">
+    <!-- let's work on login section (github login -- 1st page of figma) -->
+    <section
+      id="login-page"
+      class="flex justify-center items-center min-h-screen px-4"
+    >
+      <div
+        class="card w-full max-w-md bg-white shadow-2xl border-2 p-10 text-center rounded-xl"
+      >
+        <img
+          src="./assets/github-logo.png"
+          alt="GitHub Logo"
+          class="w-24 mx-auto mb-6"
+        />
+        <h1 class="text-3xl font-bold text-slate-800">GitHub Issues Tracker</h1>
+        <p class="text-gray-500 mt-2 mb-8">Sign in to manage your issues</p>
+
+        <div class="form-control w-full text-left mb-5">
+          <label class="label"
+            ><span class="label-text font-bold">Username</span></label
+          >
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter Username"
+            class="input input-bordered w-full"
+          />
+        </div>
+
+        <div class="form-control w-full text-left mb-8">
+          <label class="label"
+            ><span class="label-text font-bold">Password</span></label
+          >
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+            class="input input-bordered w-full"
+          />
+        </div>
+        <button
+          onclick="handleLogin()"
+          class="btn btn-primary w-full bg-[#4F46E5] border-none text-white text-lg"
+        >
+          Sign In
+        </button>
+
+        <!-- we implement the handleLogin()  -- inside js  -->
+        <div class="divider my-8">OR</div>
+
+        <div class="bg-blue-50 p-5 rounded-xl border border-dashed">
+          <p class="text-sm font-bold text-blue-800 mb-1">Demo Credentials:</p>
+          <p class="text-sm text-slate-600"><strong>Username:</strong> admin</p>
+          <p class="text-sm text-slate-600">
+            <strong>Password:</strong> admin123
+          </p>
+        </div>
+      </div>
+    </section>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!--  let's work on the main-- part -- the 2nd page of figma with 3rd page (3rd page only have to-- add a modal ) -->
+    <section id="main-page" class="hidden">
+      <nav
+        class="navbar bg-white border-b px-4 md:px-12 py-5 sticky top-0 z-50"
+      >
+      <!-- nav top left part  -->
+      <div class="flex-1 flex items-center gap-3">
+          <img src="./assets/github-logo.png" alt="Logo" class="w-10" />
+          <span class="text-2xl font-black text-slate-800"
+          >GitHub Issues Tracker</span
+          >
+        </div>
+        <!-- nav top right  part ( search box and -- new issus add... ) -->
+
+        <div class="flex items-center gap-4">
+          <div class="relative w-64 md:w-80">
+            <span
+              class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none"
+            >
+              <i class="fas fa-search"></i> 
+              <!--  font awesome -- search icon link.. 
+                1. in search box i use -- onkeyup -- instead of onclick -->
+            </span>
+            <input
+              type="text"
+              id="search-input"
+              onkeyup="handleSearch()"
+              
+              placeholder="Search issues..."
+              class="input input-bordered w-full pl-10 focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <button
+              class="btn bg-[#4F46E5] border-none text-white px-8 rounded-lg"
+            >
+              + New Issue
+            </button>
+          </div>
+        </div>
+      </nav>
+<!-- finish the nav part ...................................... -->
+
+<!-- Start the main part --with the 3 main--tab ( we make an array or those --tab name in js and-- using filterIssues --onclick event handler -- we -- work on it.. ) -->
+      <main class="max-w-[1400px] mx-auto p-6 md:p-12 mb-20">
+        <div class="mx-11/12 mx-auto">
+          <div class="flex gap-3 mb-10">
+            <button
+              id="tab-all"
+              onclick="filterIssues('all')"
+              class="btn btn-md active-tab"
+            >
+              All
+            </button>
+
+            <button
+              id="tab-open"
+              onclick="filterIssues('open')"
+              class="btn btn-md btn-outline border-slate-200"
+            >
+              Open
+            </button>
+
+            <button
+              id="tab-closed"
+              onclick="filterIssues('closed')"
+              class="btn btn-md btn-outline border-slate-200"
+            >
+              Closed
+            </button>
+          </div>
+        </div>
+<!-- finish the tab work -->
+
+ <!-- Number of issues tacker part...  -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mb-10"
+        >
+          <div class="flex items-center gap-6">
+            <img src="./assets/Aperture.png" alt="Icon" class="w-12 h-12" />
+            <div>
+              <h2 class="text-3xl font-extrabold">
+                <!-- start count with -- 0 now........... -->
+                <span id="issue-count">0</span> Issues
+              </h2>
+              <p class="text-slate-500 font-medium tracking-wide">
+                Track and manage your project issues
+              </p>
+            </div>
+          </div>
+          <!-- right side open or close indicator..        use -- rounder-full for make --circle..  -->
+          <div class="flex gap-6 mt-6 md:mt-0 font-bold">
+            <span class="flex items-center gap-2"
+              ><span class="w-3 h-3 bg-[#22c55e] rounded-full"></span>
+              Open</span
+            >
+            <span class="flex items-center gap-2"
+              ><span class="w-3 h-3 bg-[#a855f7] rounded-full"></span>
+              Closed</span
+            >
+          </div>
+        </div>
+
+        <!-- finish the -- issues counter part..  -->
+
+
+        <!-- after the --counter finish-- I add the loader..  however ? I don't think you can see it ???????????
+         as --i see only for some time........ -->
+
+         <!-- add a deisy ui loader..  -->
+        <div id="loader" class="flex justify-center py-20 hidden">
+          <span
+            class="loading loading-spinner loading-lg text-indigo-600"  
+          ></span>
+        </div>
+<!-- finish loader part -->
+
+<!-- Now -- the main all card--- container.......................give ...name issues-container ........ -->
+        <div
+          id="issues-container"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        ></div>
+      </main>
+
+      <!-- footer part..............Nothing to add-- ..  -->
+      <footer
+        class="bg-white border-t p-5 flex justify-between items-center fixed bottom-0 w-full px-4 md:px-12"
+      >
+        <!-- <div class="flex items-center justify-end gap-4 w-full">
+    <div class="relative w-64 md:w-80">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
+            <i class="fas fa-search"></i>
+        </span>
+        <input 
+            type="text" 
+            id="search-input" 
+            onkeyup="handleSearch()"
+            placeholder="Search issues..." 
+            class="input input-bordered w-full pl-10 focus:outline-none focus:border-indigo-500" 
+        />
+    </div>
+    
+    <div> 
+        <button class="btn bg-[#4F46E5] border-none text-white px-8 rounded-lg">+ New Issue</button>
+    </div>
+</div> -->
+      </footer>
+    </section>
+
+
+    <!--                                        the modal part.......... -->
+    <dialog id="issue_modal" class="modal">
+        <!-- Add a daisyui -- modal here...........for show details..  -->
+      <div
+        class="modal-box max-w-3xl p-0 rounded-2xl overflow-hidden"
+        id="modal-content"
+      ></div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
