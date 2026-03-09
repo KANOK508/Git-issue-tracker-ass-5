@@ -22,7 +22,8 @@ function handleLogout() {
 // (Instead of if else ---we use -->>> And for more secure -- not Crash -- i use here, try --catch--finally ..... (for BETTER UX EXPERIENCE ALSO... )
 
 //async --the function will run -- in a fixed order...........
-async function fetchIssues() {
+
+async function fetchIssues() {  // for using  await we use async 
     showLoader(true);
     try {
         const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
