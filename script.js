@@ -1,5 +1,5 @@
 let allIssues = [];
-
+// we take the user-- as admin  and   pass -- password --(default value )
 function handleLogin() {
     const user = document.getElementById('username').value;
     const pass = document.getElementById('password').value;
