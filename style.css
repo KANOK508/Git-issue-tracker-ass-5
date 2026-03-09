@@ -2,7 +2,8 @@
 .border-top-open {
     border-top: 6px solid #22c55e !important; /* Green */
 }
-
+/* we use 
+!important keyword --for that -- we want those value will not change anytime --even we use style again ..  */
 .border-top-closed {
     border-top: 6px solid #a855f7 !important; /* Purple */
 }
